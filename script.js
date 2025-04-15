@@ -6,8 +6,8 @@ const Gameboard = (function() {
     // let boardState = [...Array(3)].map(e => Array(3).fill(0));
     let boardState = [
         [-1, 1, -1],
-        [-1, 1, 0],
-        [-1, -1, 1]
+        [-1, -1, 0],
+        [1, -1, -1]
       ]
 
     function playerOneWin() {
@@ -24,16 +24,22 @@ const Gameboard = (function() {
 
     function checkWin() {
         for (let i = 0; i < boardState.length; i++) {
-            if (boardState[i]) {
-                if (calcRowSum(i) == 3 || calcRowSum(i) == -3) {
-                    console.log("row win found");
-                    return boardState[i][boardState.length - 1];
-                }
-                if (calcColumnSum(i) == 3 || calcColumnSum(i) == -3) {
-                    console.log("column win found");
-                    return boardState[boardState.length - 1][i];
-                }
+            if (calcRowSum(i) == 3 || calcRowSum(i) == -3) {
+                console.log("row win found");
+                return boardState[i][boardState.length - 1];
             }
+            if (calcColumnSum(i) == 3 || calcColumnSum(i) == -3) {
+                console.log("column win found");
+                return boardState[boardState.length - 1][i];
+            }
+        }
+        if (diagonalVictory() == 0) {
+            console.log("diag found");
+            return boardState[0][0];
+        }
+        else if (diagonalVictory() == 1) {
+            console.log("counterdiag found");
+            return boardState[0][boardState.length - 1];
         }
         console.log("no win");
     };
@@ -49,6 +55,25 @@ const Gameboard = (function() {
             columnSum += boardState[i][0];
         }
         return columnSum;
+    }
+
+    function diagonalVictory () {
+        let diagonalSum = 0;
+        let counterDiagonalSum = 0;
+        let arraySum = [];
+        for (let i = 0; i < boardState.length; i++) {
+            diagonalSum += boardState[i][i];
+            counterDiagonalSum += boardState[i][boardState.length - 1 - i];
+        }
+        arraySum.push(diagonalSum);
+        arraySum.push(counterDiagonalSum);
+        // logic needs to be explained
+        if (arraySum.includes(3)) {
+            return arraySum.indexOf(3);
+        }
+        else if (arraySum.includes(-3)) {
+            return arraySum.indexOf(-3);
+        }
     }
 
     console.log(boardState);
