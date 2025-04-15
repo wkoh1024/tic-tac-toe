@@ -87,4 +87,6 @@ const Gameboard = (function() {
     }
     console.log(boardState);
     console.log(checkWin());
+
+    return {checkWin}
 })();
