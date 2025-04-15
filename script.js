@@ -5,23 +5,20 @@ const Gameboard = (function() {
 
     // let boardState = [...Array(3)].map(e => Array(3).fill(0));
     let boardState = [
-        [-1, 1, -1],
-        [-1, -1, 0],
-        [1, -1, -1]
-      ]
+        [-1, 1, 1],
+        [-1, 0, -1],
+        [-1, -1, 1]
+    ];
 
-    function playerOneWin() {
-        playerOneScore++;
-    };
+    const getPlayerOneScore = () => playerOneScore;
+    const getPlayerTwoScore = () => playerTwoScore;
+    const getPlayerOneTurn = () => playerOneTurn;
 
-    function playerTwoWin() {
-        playerTwoScore++;
-    }
+    const playerOneWin = () => playerOneScore++;
+    const playerTwoWin = () => playerTwoScore++;
 
-    function changeTurn () {
-        playerOneTurn = !playerOneTurn;
-    }
-
+    const changeTurn = () => playerOneTurn = !playerOneTurn;
+    
     function checkWin() {
         for (let i = 0; i < boardState.length; i++) {
             if (calcRowSum(i) == 3 || calcRowSum(i) == -3) {
@@ -41,23 +38,26 @@ const Gameboard = (function() {
             console.log("counterdiag found");
             return boardState[0][boardState.length - 1];
         }
-        console.log("no win");
+        if (checkTie()) {
+            return 'TIE';
+        }
+        console.log("no win yet");
     };
 
-    function calcRowSum (index) {
+    const calcRowSum = (index) => {
         let rowSum = boardState[index].reduce((sum, num) => sum + num);
         return rowSum;
     }
 
-    function calcColumnSum (index) {
+    const calcColumnSum = (index) => {
         let columnSum = 0;
         for (let i = 0; i < boardState.length; i++) {
-            columnSum += boardState[i][0];
+            columnSum += boardState[i][index];
         }
         return columnSum;
     }
 
-    function diagonalVictory () {
+    const diagonalVictory = () => {
         let diagonalSum = 0;
         let counterDiagonalSum = 0;
         let arraySum = [];
@@ -76,6 +76,15 @@ const Gameboard = (function() {
         }
     }
 
+    const checkTie  = () => {
+        let tie = true;
+        for (let i = 0; i < boardState.length; i++) {
+            if (boardState[i].includes(0)) {
+                tie = false;
+            }
+        }
+        return tie;
+    }
     console.log(boardState);
     console.log(checkWin());
 })();
