@@ -7,10 +7,22 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h1>TIC TAC TOE</h1>
+    <div id="startButton">
+        <button>Start</button>
+    </div>
+    <dialog id="startGame">
+        <form id="startGameForm" method="post">
+            <fieldset>
+                <legend>Enter Player Names</legend>
+                <label for="playerOneName"></label>
+                <input type="text" id="playerOneName">
+                <label for="playerTwoName"></label>
+                <input type="submit" value="Start Game">
+            </fieldset>
+        </form>
+    </dialog>
     <div id="main">
-        <div id="startButton">
-            <button>Start</button>
-        </div>
         <div id="scoreboard">
             <div id="playerOneName">
                 Player 1

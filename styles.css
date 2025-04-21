@@ -65,6 +65,11 @@ body {
      height: 100vh;
 }
 
+h1 {
+     font-size: 50px;
+     padding-bottom: 20px;
+}
+
 #startButton {
      display: flex;
      justify-content: center;
@@ -102,4 +107,6 @@ body {
      justify-content: space-between;
 }
 
-
+#main {
+     display: none;
+}

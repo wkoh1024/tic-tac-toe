@@ -10,6 +10,27 @@ const Gameboard = (function() {
         [-1, -1, 1]
     ];
 
+    //cache DOm
+    let $startButton = document.querySelector("#startButton button");
+    let $startModal = document.querySelector("#startGame");
+    let $submit = document.querySelector(`input[type="submit"`);
+    let $main = document.querySelector("#main");
+
+    // bind events
+    $startButton.addEventListener("click", () => {
+        $startModal.showModal();
+    })
+
+    const submitButtonHandler = (event) => {
+        event.preventDefault();
+        $main.style.display = "block";
+        $startModal.close();
+        $startButton.style.display = "none";
+    }
+
+    $submit.addEventListener("click", submitButtonHandler);
+
+
     const getPlayerOneScore = () => playerOneScore;
     const getPlayerTwoScore = () => playerTwoScore;
     const getPlayerOneTurn = () => playerOneTurn;
@@ -19,7 +40,7 @@ const Gameboard = (function() {
 
     const changeTurn = () => playerOneTurn = !playerOneTurn;
     
-    function checkWin() {
+    const checkWin = () => {
         for (let i = 0; i < boardState.length; i++) {
             if (calcRowSum(i) == 3 || calcRowSum(i) == -3) {
                 console.log("row win found");
@@ -85,8 +106,9 @@ const Gameboard = (function() {
         }
         return tie;
     }
+
     console.log(boardState);
     console.log(checkWin());
 
-    return {checkWin}
+    return {checkWin};
 })();
