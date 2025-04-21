@@ -23,9 +23,25 @@ const Gameboard = (function() {
 
     const submitButtonHandler = (event) => {
         event.preventDefault();
+
+        let $playerOneNameInput = document.querySelector("#playerOneNameInput").value;
+        let $playerTwoNameInput = document.querySelector("#playerTwoNameInput").value;
+        let $playerOneName = document.querySelector("#playerOneName");
+        let $playerTwoName = document.querySelector("#playerTwoName");
+
+        let pOneName = document.createElement("div");
+        pOneName.textContent = $playerOneNameInput;
+        let pTwoName = document.createElement("div");
+        pTwoName.textContent = $playerTwoNameInput;
+
+        $playerOneName.append(pOneName);
+        $playerTwoName.append(pTwoName);
+
         $main.style.display = "block";
         $startModal.close();
         $startButton.style.display = "none";
+
+
     }
 
     $submit.addEventListener("click", submitButtonHandler);

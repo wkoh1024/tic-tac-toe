@@ -110,3 +110,18 @@ h1 {
 #main {
      display: none;
 }
+
+fieldset {
+     display: flex;
+     flex-direction: column;
+     gap: 5px;
+}
+
+legend {
+     padding-bottom: 10px;
+     font-weight: bold;
+}
+
+#scoreboard div div:nth-child(1) {
+     font-weight: bold;
+}
