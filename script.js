@@ -1,9 +1,6 @@
 let boardState = [...Array(3)].map(e => Array(3).fill(0));
-// let boardState = [
-//     [1, 1, -1],
-//     [1, -1, -1],
-//     [-1, -1, 1]
-// ];
+let $playerOneName = document.querySelector("#playerOneName");
+let $playerTwoName = document.querySelector("#playerTwoName");
 
 const displayController = (function() {
     //cache DOm
@@ -19,8 +16,6 @@ const displayController = (function() {
 
         let $playerOneNameInput = document.querySelector("#playerOneNameInput").value;
         let $playerTwoNameInput = document.querySelector("#playerTwoNameInput").value;
-        let $playerOneName = document.querySelector("#playerOneName");
-        let $playerTwoName = document.querySelector("#playerTwoName");
 
         let pOneName = document.createElement("div");
         pOneName.textContent = $playerOneNameInput;
@@ -36,35 +31,28 @@ const displayController = (function() {
     }
 
     const render = () => {
-        // for (let i = 0; i < boardState.length; i++) {
-        //     for (let j = 0; j < boardState[i].length; j++) {
-        //         if (boardState[i][j] == 1) {
-        //             $gridItems[(3 * i) + j].textContent = 'X';
-        //         }
-        //         else if (boardState[i][j] == -1) {
-        //             $gridItems[(3 * i) + j].textContent = 'O';
-        //         }
-        //     }
-        // }
+        $playerOneName.style.background = '#39FF14';
+        const gridHandler = (event) => {
+            let index = $gridItems.indexOf(event.target);
+            if (!event.target.textContent) {
+                if (Gameboard.getPlayerOneTurn()) {
+                    event.target.textContent = 'X';
+                    boardState[Math.floor(index / 3)][index % 3] = 1;
+                    $playerTwoName.style.background = '#39FF14';
+                    $playerOneName.style.background = 'none';
+                }
+                else {
+                    event.target.textContent = 'O';
+                    boardState[Math.floor(index / 3)][index % 3] = -1;
+                    $playerOneName.style.background = '#39FF14';
+                    $playerTwoName.style.background = 'none';
+                }
+            }
+            Gameboard.changeTurns();
+        }
+    
         for (let i = 0; i < $gridItems.length; i++) {
             $gridItems[i].addEventListener("click", gridHandler);
-        }
-    }
-
-    const gridHandler = (event) => {
-        let index = $gridItems.indexOf(event.target);
-        console.log(index);
-        if (!event.target.textContent) {
-            if (Gameboard.playerOneTurn) {
-                event.target.textContent = 'X';
-                boardState[Math.floor(index / 3)][index % 3] = 1;
-            }
-            else {
-                event.target.textContent = 'O';
-                boardState[Math.floor(index / 3)][index % 3] = -1;
-            }
-            Gameboard.playerOneTurn = !Gameboard.playerOneTurn;
-            console.log(boardState);
         }
     }
     
@@ -73,24 +61,15 @@ const displayController = (function() {
         $startModal.showModal();
     });
     $submit.addEventListener("click", submitButtonHandler);
-    render();
     return {render};
 })();
 
 const Gameboard = (function() {
-    let playerOneScore = 0;
-    let playerTwoScore = 0;
     let playerOneTurn = true;
 
-    const getPlayerOneScore = () => playerOneScore;
-    const getPlayerTwoScore = () => playerTwoScore;
+    const changeTurns = () => playerOneTurn = !playerOneTurn;
     const getPlayerOneTurn = () => playerOneTurn;
 
-    const playerOneWin = () => playerOneScore++;
-    const playerTwoWin = () => playerTwoScore++;
-
-    const changeTurn = () => playerOneTurn = !playerOneTurn;
-    
     const checkWin = () => {
         const calcRowSum = (index) => {
             let rowSum = boardState[index].reduce((sum, num) => sum + num);
@@ -160,11 +139,11 @@ const Gameboard = (function() {
 
     console.log(boardState);
     console.log(checkWin())
-    return {playerOneTurn, checkWin}
+    return {playerOneTurn, checkWin, changeTurns, getPlayerOneTurn}
 })();
 
 const startGame = (function () {
-    if (Gameboard.playerOneTurn) {
-
-    }
+    displayController.render();
 })
+
+startGame();
