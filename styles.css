@@ -133,3 +133,15 @@ legend {
      font-size: 50px;
      font-weight: bold;
 }
+
+#endGame form {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     gap: 10px;
+}
+
+#endGame form:nth-child(1) {
+     font-weight: bold;
+}

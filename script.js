@@ -68,6 +68,11 @@ const displayController = (function() {
                 if (winner == 1 || winner == -1) {
                     $endModal.showModal();
                 }
+                let winnerText = (winner == 1) ? "Player 1" : "Player 2";
+                let winningTextNode = document.querySelector("#endGame form h2");
+                winningTextNode.textContent = `${winnerText} has won!`;
+                let $endModalForm = document.querySelector("#endGame form");
+                $endModalForm.prepend(winningTextNode);
             }
         }
     
