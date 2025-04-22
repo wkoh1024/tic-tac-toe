@@ -65,14 +65,16 @@ const displayController = (function() {
             }
             let winner = Gameboard.checkWin();
             if (typeof winner == "number") {
-                if (winner == 1 || winner == -1) {
-                    $endModal.showModal();
-                }
-                let winnerText = (winner == 1) ? "Player 1" : "Player 2";
-                let winningTextNode = document.querySelector("#endGame form h2");
-                winningTextNode.textContent = `${winnerText} has won!`;
+                let resultTexNode = document.querySelector("#endGame form h2");
                 let $endModalForm = document.querySelector("#endGame form");
-                $endModalForm.prepend(winningTextNode);
+                if (winner == 1 || winner == -1) {
+                    let winnerText = (winner == 1) ? "Player 1" : "Player 2";
+                    resultTexNode.textContent = `${winnerText} has won!`;
+                } else {
+                    resultTexNode.textContent = "Tie!";
+                }
+                $endModal.showModal();
+                $endModalForm.prepend(resultTexNode);
             }
         }
     
