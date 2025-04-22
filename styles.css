@@ -108,7 +108,7 @@ h1 {
 }
 
 #main {
-     display: none;
+     display: block;
 }
 
 fieldset {

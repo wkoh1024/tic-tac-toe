@@ -36,20 +36,15 @@ const displayController = (function() {
 
     const render = () => {
         for (let i = 0; i < boardState.length; i++) {
-            for (let j = 0; boardState[i].length; j++) {
+            for (let j = 0; j < boardState[i].length; j++) {
                 if (boardState[i][j] == 1) {
-                    $gridItems[i + j].textContent = 'X';
+                    $gridItems[(3 * i) + j].textContent = 'X';
                 }
                 else if (boardState[i][j] == -1) {
-                    $gridItems[i + j].textContent = 'O';
+                    $gridItems[(3 * i) + j].textContent = 'O';
                 }
             }
         }
-        // for (let i = 0; i < $gridItems.length; i++) {
-        //     $gridItems[i].addEventListener("click", function () {
-        //         console.log($gridItems[i].id)
-        //     })
-        // }
     }
     
     // bind events
