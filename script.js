@@ -1,18 +1,27 @@
 let boardState = [...Array(3)].map(e => Array(3).fill(0));
 let $playerOneName = document.querySelector("#playerOneName");
 let $playerTwoName = document.querySelector("#playerTwoName");
+let $startModal = document.querySelector("#startGame");
+let $endModal = document.querySelector("#endGame");
 
-const resetGame = () => {
-    boardState = [...Array(3)].map(e => Array(3).fill(0));
+const restartGame = () => {
+    const restartButtonHandler = (event) => {
+        event.preventDefault();
+        $endModal.style.display = 'none';
+        boardState = [...Array(3)].map(e => Array(3).fill(0));
+        displayController.clearBoard();
+    }
+    let $restart = document.querySelector("#endGame form button");
+    $restart.addEventListener("click", restartButtonHandler);
 }
 
 const displayController = (function() {
     //cache DOm
-    let $startButton = document.querySelector("#startButton button");
-    let $startModal = document.querySelector("#startGame");
+    let $startButton = document.querySelector("#startButton button")
     let $submit = document.querySelector(`input[type="submit"`);
     let $main = document.querySelector("#main");
-    let $gridItems = [...document.querySelector(".gameboard").children];
+    let $arrayGridItems = [...document.querySelector(".gameboard").children];
+
 
 
     const submitButtonHandler = (event) => {
@@ -37,7 +46,7 @@ const displayController = (function() {
     const render = () => {
         $playerOneName.style.background = '#39FF14';
         const gridHandler = (event) => {
-            let index = $gridItems.indexOf(event.target);
+            let index = $arrayGridItems.indexOf(event.target);
             if (!event.target.textContent) {
                 if (Gameboard.getPlayerOneTurn()) {
                     event.target.textContent = 'X';
@@ -51,14 +60,26 @@ const displayController = (function() {
                     $playerOneName.style.background = '#39FF14';
                     $playerTwoName.style.background = 'none';
                 }
+                Gameboard.changeTurns();
             }
-            Gameboard.changeTurns();
-            Gameboard.checkWin();
+            if (typeof Gameboard.checkWin() == "number") {
+                if (Gameboard.checkWin() == 1 || Gameboard.checkWin() == -1) {
+                    $endModal.showModal();
+                }
+            }
         }
     
-        for (let i = 0; i < $gridItems.length; i++) {
-            $gridItems[i].addEventListener("click", gridHandler);
+        for (let i = 0; i < $arrayGridItems.length; i++) {
+            $arrayGridItems[i].addEventListener("click", gridHandler);
         }
+    }
+
+    const clearBoard = () => {
+        let $grids = document.querySelectorAll(".gameboard div");
+        for (let i = 0; i < $grids.length; i++) {
+            $grids[i].textContent = "";
+        }
+        console.log("grid cleared");
     }
     
     // bind events
@@ -66,7 +87,7 @@ const displayController = (function() {
         $startModal.showModal();
     });
     $submit.addEventListener("click", submitButtonHandler);
-    return {render};
+    return {render, clearBoard};
 })();
 
 const Gameboard = (function() {
@@ -137,19 +158,15 @@ const Gameboard = (function() {
             return boardState[0][boardState.length - 1];
         }
         if (checkTie()) {
-            return 'TIE';
+            return -99;
         }
-        return "no win yet";
     };
-
-    console.log(boardState);
-    console.log(checkWin())
-    return {playerOneTurn, checkWin, changeTurns, getPlayerOneTurn}
+    return {checkWin, changeTurns, getPlayerOneTurn}
 })();
 
 const startGame = (function () {
-    resetGame();
     displayController.render();
+    restartGame();
 })
 
 startGame();
