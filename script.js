@@ -2,6 +2,10 @@ let boardState = [...Array(3)].map(e => Array(3).fill(0));
 let $playerOneName = document.querySelector("#playerOneName");
 let $playerTwoName = document.querySelector("#playerTwoName");
 
+const resetGame = () => {
+    boardState = [...Array(3)].map(e => Array(3).fill(0));
+}
+
 const displayController = (function() {
     //cache DOm
     let $startButton = document.querySelector("#startButton button");
@@ -49,6 +53,7 @@ const displayController = (function() {
                 }
             }
             Gameboard.changeTurns();
+            Gameboard.checkWin();
         }
     
         for (let i = 0; i < $gridItems.length; i++) {
@@ -143,6 +148,7 @@ const Gameboard = (function() {
 })();
 
 const startGame = (function () {
+    resetGame();
     displayController.render();
 })
 
