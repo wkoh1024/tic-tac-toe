@@ -8,9 +8,12 @@ const restartGame = () => {
     const restartButtonHandler = () => {
         boardState = [...Array(3)].map(e => Array(3).fill(0));
         displayController.clearBoard();
+        $playerOneName.style.background = '#39FF14';
+        $playerTwoName.style.background = 'none';
+        Gameboard.setPlayerOneTurn();
     }
     let $restart = document.querySelector("#endGame form button");
-    $restart.addEventListener("click", restartButtonHandler);
+    $restart.addEventListener("click", restartButtonHandler);  
 }
 
 const displayController = (function() {
@@ -60,8 +63,9 @@ const displayController = (function() {
                 }
                 Gameboard.changeTurns();
             }
-            if (typeof Gameboard.checkWin() == "number") {
-                if (Gameboard.checkWin() == 1 || Gameboard.checkWin() == -1) {
+            let winner = Gameboard.checkWin();
+            if (typeof winner == "number") {
+                if (winner == 1 || winner == -1) {
                     $endModal.showModal();
                 }
             }
