@@ -1,9 +1,9 @@
-// let boardState = [...Array(3)].map(e => Array(3).fill(0));
-let boardState = [
-    [1, 1, -1],
-    [1, -1, -1],
-    [-1, -1, 1]
-];
+let boardState = [...Array(3)].map(e => Array(3).fill(0));
+// let boardState = [
+//     [1, 1, -1],
+//     [1, -1, -1],
+//     [-1, -1, 1]
+// ];
 
 const displayController = (function() {
     //cache DOm
@@ -11,7 +11,8 @@ const displayController = (function() {
     let $startModal = document.querySelector("#startGame");
     let $submit = document.querySelector(`input[type="submit"`);
     let $main = document.querySelector("#main");
-    let $gridItems = document.querySelector(".gameboard").children;
+    let $gridItems = [...document.querySelector(".gameboard").children];
+
 
     const submitButtonHandler = (event) => {
         event.preventDefault();
@@ -35,15 +36,35 @@ const displayController = (function() {
     }
 
     const render = () => {
-        for (let i = 0; i < boardState.length; i++) {
-            for (let j = 0; j < boardState[i].length; j++) {
-                if (boardState[i][j] == 1) {
-                    $gridItems[(3 * i) + j].textContent = 'X';
-                }
-                else if (boardState[i][j] == -1) {
-                    $gridItems[(3 * i) + j].textContent = 'O';
-                }
+        // for (let i = 0; i < boardState.length; i++) {
+        //     for (let j = 0; j < boardState[i].length; j++) {
+        //         if (boardState[i][j] == 1) {
+        //             $gridItems[(3 * i) + j].textContent = 'X';
+        //         }
+        //         else if (boardState[i][j] == -1) {
+        //             $gridItems[(3 * i) + j].textContent = 'O';
+        //         }
+        //     }
+        // }
+        for (let i = 0; i < $gridItems.length; i++) {
+            $gridItems[i].addEventListener("click", gridHandler);
+        }
+    }
+
+    const gridHandler = (event) => {
+        let index = $gridItems.indexOf(event.target);
+        console.log(index);
+        if (!event.target.textContent) {
+            if (Gameboard.playerOneTurn) {
+                event.target.textContent = 'X';
+                boardState[Math.floor(index / 3)][index % 3] = 1;
             }
+            else {
+                event.target.textContent = 'O';
+                boardState[Math.floor(index / 3)][index % 3] = -1;
+            }
+            Gameboard.playerOneTurn = !Gameboard.playerOneTurn;
+            console.log(boardState);
         }
     }
     
@@ -134,10 +155,16 @@ const Gameboard = (function() {
         if (checkTie()) {
             return 'TIE';
         }
-        console.log("no win yet");
+        return "no win yet";
     };
 
     console.log(boardState);
-    console.log(checkWin());
+    console.log(checkWin())
     return {playerOneTurn, checkWin}
 })();
+
+const startGame = (function () {
+    if (Gameboard.playerOneTurn) {
+
+    }
+})
