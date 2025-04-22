@@ -5,9 +5,7 @@ let $startModal = document.querySelector("#startGame");
 let $endModal = document.querySelector("#endGame");
 
 const restartGame = () => {
-    const restartButtonHandler = (event) => {
-        event.preventDefault();
-        $endModal.style.display = 'none';
+    const restartButtonHandler = () => {
         boardState = [...Array(3)].map(e => Array(3).fill(0));
         displayController.clearBoard();
     }
@@ -95,6 +93,7 @@ const Gameboard = (function() {
 
     const changeTurns = () => playerOneTurn = !playerOneTurn;
     const getPlayerOneTurn = () => playerOneTurn;
+    const setPlayerOneTurn = () => playerOneTurn = true;
 
     const checkWin = () => {
         const calcRowSum = (index) => {
@@ -161,7 +160,7 @@ const Gameboard = (function() {
             return -99;
         }
     };
-    return {checkWin, changeTurns, getPlayerOneTurn}
+    return {checkWin, changeTurns, getPlayerOneTurn, setPlayerOneTurn}
 })();
 
 const startGame = (function () {
